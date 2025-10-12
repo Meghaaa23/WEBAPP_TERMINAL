@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction to Cyber Security</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script defer src="js/terminal.js"></script>
+  </head>
+  <body>
+    <header>
+      <img src="img/uwm-logo-primary.png" alt="UWM Logo" class="logo" />
+      <h3 class="header-title">Hack, Learn, Secure: Your Cybersecurity Playground</h3>
+      <img src="img/SIDC.png" alt="SIDC Logo" class="logo" />
+      <div class="button-container">
+      	<a href="index.html" class="back-home">Home</a>
+      </div>
+    </header>
+    <main>
+    <div class="container">
+        <div class="options">
+            <button id="main-terminal-btn">Main Terminal</button>
+            <button id="host-terminals-btn">Host A and B</button>
+        </div>
+        <div id="main-terminal" class="terminal hidden">
+            <h2>Main Terminal</h2>
+            <textarea id="terminal-output" readonly></textarea>
+            <input id="terminal-input" placeholder="Type command here..." autofocus>
+	      </div>
+    </div>
+    </main>
+    <footer>
+        <p>Developed by Secure and Intelligent Distributed Computing (SIDC) Lab</p>
+    </footer>
+</body>
+</html>

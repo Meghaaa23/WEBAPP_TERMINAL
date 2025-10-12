@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/ai-analyser.js"></script>
+</head>
+<body>
+    <header>
+      <img src="img/uwm-logo-primary.png" alt="UWM Logo" class="logo" />
+      <h1 class="header-title">Hack, Learn, Secure: Your Cybersecurity Playground</h1>
+      <img src="img/SIDC.png" alt="SIDC Logo" class="logo" />
+      <div class="button-container">
+        <a href="index.html" class="back-home">Home</a>
+      </div>
+    </header>
+    <div class="host-terminals">
+        <div class="host-terminal">
+            <h2>AI Analyser1</h2>
+            <textarea id="host-c-output" readonly></textarea>
+            <input id="host-c-input" placeholder="Type command..." autofocus>
+        </div>
+        <div class="host-terminal">
+            <h2>AI Analyser2</h2>
+            <textarea id="host-d-output" readonly></textarea>
+            <input id="host-d-input" placeholder="Type command..." >
+        </div>
+    </div>
+    <div class="container">
+        <h2>Example – Email Spam Detection</h2>
+
+      <ul>
+        <li>To determine the likelihood that an email is spam or ham, Naive Bayes analyzes each word separately.</li>
+        <li>For example, the terms <b>"free"</b>, <b>"offer"</b>, or <b>"money"</b> may raise the likelihood that an email would be categorized as spam or ham.</li>
+      </ul>
+  
+
+      <div class="instructions">
+        <h2>TAST 1 : Model Steps – Spam Classification using Naive Bayes Algorithm</h2>
+        <ul>
+         <li><strong>Step 1 : </strong>Import relevant libraries: a library is simply a collection of codes or modules of codes that can be used in a program for specific operations.</li>
+        </ul>
+        <pre> <code>
+          pip install pandas
+          pip install numpy
+
+          import numpy
+          import pandas
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 2 : </strong>Import sklearn library: Simple and efficient tools for predictive data analysis</li>
+          <li><strong>sklearn</strong> - https://scikit-learn.org/stable</li>
+        </ul>
+        <pre><code>
+          pip install scikit-learn
+
+          from sklearn.feature_extraction.text import CountVectorizer
+          from sklearn.model_selection import train_test_split
+          from sklearn.naive_bayes import MultinomialNB
+          </code>
+        </pre>
+
+        
+        <ul>
+          <li><strong>Step 3 : </strong>Load the dataset: Dataset is from AIDevNepal’s GitHub repository which has a combination of spam and non-spam emails. The target of the spam will be 1 if it is not spam then it will be 0.</li>
+        </ul>
+
+        <pre><code>
+          data = pd.read_csv('https://raw.githubusercontent.com/AiDevNepal/ai-saturdays-workshop-8/master/data/spam.csv')
+          data['target'] = np.where(data['target']=='spam', 1, 0)
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 4 : </strong>Divide the dataset: Split the data into training and test sets.</li>
+        </ul>
+
+        <pre><code>
+          X_train, X_test, Y_train, Y_test = train_test_split(data['text'], data['target'], random_state=0)
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 5 : </strong>Train the Model: Train a multinomial Naive Bayes model using Sklearn API with the dataset created.Actually, naive Bayes is a performance machine learning algorithm on small datasets.</li>
+        </ul>
+
+        <pre><code>
+          model.fit(X_train, Y_train)
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 6 : </strong>Predict the results: Test the trained Naive Bayes model with the test data.</li>
+        </ul>
+
+        <pre><code>
+          test_predictions = model.predict(X_test_vectorized)
+          </code>
+        </pre>
+        <div class="container">
+          <h3>Testing</h3>
+          <p><b>Email:</b> “1-month unlimited calls offer Activate now”<br>Is Spam: 1</p>
+          <p><b>Email:</b> “Dear ABC, Congratulations! You have been selected as a Software Developer at XYZ Company. We were really happy to see your enthusiasm for this vision and mission. We are impressed with your background and we think you would make an excellent addition to the team.”<br>Is Spam: 0</p>
+        </div>
+        </div>
+
+      <div class="instructions">
+        <h2>TASK 2 : Model Steps – Spam Classification using Logistic Regression</h2>
+
+        <ul>
+          <li><strong>Step 1 : </strong>Import relevant libraries: A library is simply a collection of codes or modules of codes that can be used in a program for specific operations.</li>
+        </ul>
+        <pre><code>
+          pip install pandas
+          pip install numpy
+
+          import numpy
+          import pandas
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 2 : </strong>Import sklearn library: Simple and efficient tools for predictive data analysis</li>
+        </ul>
+        <pre><code>
+          pip install scikit-learn
+          from sklearn.feature_extraction.text import CountVectorizer
+          from sklearn.model_selection import train_test_split
+          from sklearn.linear_model import LogisticRegression
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 3 : </strong>Loading Data: The dataset is loaded from a CSV file using pandas. This dataset contains emails labeled as 'spam' or 'ham' (not spam).</li>
+        </ul>
+
+        <pre><code>
+          data = pd.read_csv('https://raw.githubusercontent.com/AiDevNepal/ai-saturdays-workshop-8/master/data/spam.csv')
+          data['target'] = np.where(data['target']=='spam', 1, 0)
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 4 : </strong>Train and Test Data – Splitting: The dataset is split into training and test sets using train_test_split.</li>
+        </ul>
+
+        <pre><code>
+          X_train, X_test, Y_train, Y_test = train_test_split(data['text'], data['target'], random_state=0)
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 5 : </strong>Model Training:</li>
+        </ul>
+
+        <pre><code>
+          model = LogisticRegression(max_iter=1000)
+          model.fit(X_train_vectorized, Y_train)
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 6 : </strong>Model Prediction and Testing:</li>
+        </ul>
+        
+      </div>
+
+          
+    </div>    
+    <footer>
+      <p>Developed by Secure and Intelligent Distributed Computing (SIDC) Lab</p>
+    </footer>
+</body>
+</html>

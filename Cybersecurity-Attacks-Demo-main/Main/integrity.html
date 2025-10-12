@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Integrity</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Integrity</h1>
+      <img src="img/in1.png" alt="Integrity Illustration" class="content-image" />
+      <div class="content-section">
+        <p>
+          Integrity is the property that information has not been altered or
+          changed in an unauthorized manner.
+        </p>
+        <p>
+          Examples include files, texts, videos, Tiktok clips, Instagram posts.
+        </p>
+      </div>
+
+      <div class="image-row">
+        <img src="img/in2.png" alt="Instagram Icon" class="side-image" />
+        <img src="img/in3.png" alt="Tiktok Icon" class="side-image" />
+        <img src="img/in4.png" alt="YouTube Icon" class="side-image" />
+      </div>
+
+      <div class="content-section">
+        <p>
+          Data that has been tampered with has lost its integrity. (It can be
+          violated through modifying configuration, changing system logs to
+          avoid detection, human error, etc.)
+        </p>
+      </div>
+
+      <h2>Methods to Ensure Integrity</h2>
+
+      <h3>Backups</h3>
+      <div class="content-section">
+        <p>
+          Backups: The method ensures that the information originated from the
+          signer and was not altered, and also proves the identity of the
+          organization that created the digital signature. (Similar to
+          encryption but the key does not encrypt the information).
+        </p>
+        <p>
+          This method produces a digital signature (a code) using the
+          information. After sending, the receiver then checks if the signature
+          matches with the information sent.
+        </p>
+      </div>
+
+      <h3>Checksums</h3>
+      <img src="img/in5.png" alt="Checksums Illustration" class="content-image" />
+      <div class="content-section">
+        <p>
+          Checksums (hash functions): The computation of a function that maps
+          the contents of a file into an alphanumeric value. Even the slightest
+          change in a file can result in different output values, making it
+          easier to spot if a piece of info has been altered.
+        </p>
+      </div>
+    </div>
+    <div class="button-container">
+      <a href="index.html" class="back-home">Back Home</a>
+      <a href="availability.html" class="next-page">Next</a>
+    </div>
+  </body>
+  <footer>
+        <p>Developed by Secure and Intelligent Distributed Computing (SIDC) Lab</p>
+    </footer>
+</html>

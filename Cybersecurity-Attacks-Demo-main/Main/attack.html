@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/host-terminals.js"></script>
+</head>
+<body>
+    <header>
+      <img src="img/uwm-logo-primary.png" alt="UWM Logo" class="logo" />
+      <h1 class="header-title">Hack, Learn, Secure: Your Cybersecurity Playground</h1>
+      <img src="img/SIDC.png" alt="SIDC Logo" class="logo" />
+      <div class="button-container">
+        <a href="index.html" class="back-home">Home</a>
+      </div>
+    </header>
+    <div class="host-terminals">
+        <div class="host-terminal">
+            <h2>Attacker</h2>
+            <textarea id="host-a-output" readonly></textarea>
+            <input id="host-a-input" placeholder="Type command..." autofocus>
+        </div>
+        <div class="host-terminal">
+            <h2>Defender</h2>
+            <textarea id="host-b-output" readonly></textarea>
+            <input id="host-b-input" placeholder="Type command...">
+        </div>
+    </div>
+    <!-- Instruction Manual Section -->
+    <div class="container">
+        <h1>Instruction Manual</h1>
+
+        <div class="instructions">
+            <h2>Task 1: Understanding Packet Sniffing</h2>
+            <p>This task introduces the Python module <code>Scapy</code>, a popular tool for sniffing and spoofing packets. You will use Scapy to sniff packets in this exercise.</p>
+
+            <h3>What You Need to Do:</h3>
+            <ol>
+                <li><strong>Step 1:</strong> Review the sample code for sniffing in the Python program file named <code>sniffer.py</code> on Attacker host. This code sniffs the first 10 packets on Attacker host. Run this Python code with root privileges.<br/><pre><code>sudo python3 sniffer.py</code></pre></li>
+
+                <li><strong>Step 2:</strong> While the Python code is running on Attacker host, on Defender host execute the following command:</li>
+                <pre><code>ping -c 15 10.4.0.7</code></pre>
+            </ol>
+
+            <h2>Task 2: Understanding Packet Spoofing</h2>
+            <p>In this task, you will use Scapy to spoof a UDP packet.</p>
+
+            <h3>What You Need to Do:</h3>
+            <ol>
+                <li><strong>Step 1:</strong> Locate the Python program file named <code>spoofer.py</code> on Attacker host. This file is designed to spoof a UDP packet with the following details:</li>
+                <ul>
+                    <li>Source IP: <code>10.4.0.7</code></li>
+                    <li>Destination IP: <code>10.4.0.9</code></li>
+                    <li>Source Port and Destination Port: <code>3345</code></li>
+                    <li>Data Message: <code>“spoofed payload”</code></li>
+                </ul>
+
+                <li><strong>Step 2:</strong> On Defender host, run the following command:</li>
+                <pre><code>sudo tcpdump -n -i eth0 -c 100</code></pre>
+
+                <li><strong>Step 3:</strong> Keep the <code>tcpdump</code> command running in both terminals, then execute the spoofer code<pre><code>sudo python3 spoofer.py</code></pre> file with root privileges.</li>
+	    </ol>
+	    <h2>Task 3: Performing a DoS Attack using hping</h2>
+		<p>In this task, you will use hping3 to flood a host with packets, simulating a Denial of Service (DoS) attack.</p>
+
+		<h3>What You Need to Do:</h3>
+		<ol>
+    			<li><strong>Step 1:</strong> On the Attacker host, use <code>hping3</code> to flood the Defender host with SYN packets. Run the following command:</li>
+    			<pre><code>sudo hping3 -S -c 50 -V -p 80 10.4.0.9</code></pre>
+    			<ul>
+        			<li>Source IP: 10.4.0.7</li>
+        			<li>Destination IP: <code>10.4.0.9</code></li>
+        			<li>Destination Port: <code>80</code> (HTTP)</li>
+    			</ul>
+
+    			<li><strong>Step 2:</strong> On Defender host, run the following command to capture incoming packets:</li>
+    			<pre><code>sudo tcpdump -n -i eth0 -c 100</code></pre>
+
+    			<li><strong>Step 3:</strong> Keep the <code>tcpdump</code> command running on HostB and observe the packet flood for a short time.</li>
+		</ol>
+
+        </div>
+    </div>
+    <footer>
+        <p>Developed by Secure and Intelligent Distributed Computing (SIDC) Lab</p>
+    </footer>
+</body>
+</html>

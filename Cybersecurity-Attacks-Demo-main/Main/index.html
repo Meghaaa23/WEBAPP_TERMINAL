@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction to Cyber Security</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script defer src="js/terminal.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="menu-icon" onclick="toggleMenu()">☰</div>
+      <img src="img/uwm-logo-primary.png" alt="UWM Logo" class="logo" />
+      <h1 class="header-title">Hack, Learn, Secure: Your Cybersecurity Playground</h1>
+      <img src="img/SIDC.png" alt="SIDC Logo" class="logo" />
+    </header>
+
+    <nav id="content-menu">
+      <ul>
+        <li>
+          <a href="#" onclick="toggleSubmenu('concepts-submenu')">Basic Concepts</a>
+          <ul id="concepts-submenu" class="submenu hidden">
+            <li><a href="confidentiality.html">Confidentiality</a></li>
+            <li><a href="integrity.html">Integrity</a></li>
+            <li><a href="availability.html">Availability</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" onclick="toggleSubmenu('playground-submenu')"
+            >Playground</a
+          >
+          <ul id="playground-submenu" class="submenu hidden">
+            <li><a href="https://demo.sidclab.org/demo.html">Demo1</a></li>
+            <li><a href="demo2.html">Demo2</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <!-- Basic Concepts of Cybersecurity Section -->
+      <div class="concepts-section">
+        <h1>Basic Concepts of Cybersecurity</h1>
+        <div class="options">
+          <button onclick="window.location.href='confidentiality.html'">
+            Confidentiality
+          </button>
+          <button onclick="window.location.href='integrity.html'">
+            Integrity
+          </button>
+          <button onclick="window.location.href='availability.html'">
+            Availability
+          </button>
+        </div>
+      </div>
+
+      <!-- Cybersecurity Playground Section -->
+      <div class="playground-section">
+        <h1>Cybersecurity Playground</h1>
+        <div class="options">
+          <button onclick="window.location.href='https://demo.sidclab.org/demo.html'">
+            Demo1
+          </button>
+          <button onclick="window.location.href='demo2.html'">
+            Demo2
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleMenu() {
+        const menu = document.getElementById("content-menu");
+        menu.classList.toggle("show");
+      }
+
+      function toggleSubmenu(id) {
+        const submenu = document.getElementById(id);
+        submenu.classList.toggle("hidden");
+      }
+    </script>
+    <footer>
+        <p>Developed by Secure and Intelligent Distributed Computing (SIDC) Lab</p>
+    </footer>
+  </body>
+</html>
