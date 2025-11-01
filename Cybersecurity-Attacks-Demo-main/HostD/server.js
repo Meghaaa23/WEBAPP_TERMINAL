@@ -1,59 +1,79 @@
-// server.js (works for HostC & HostD)
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const fs = require('fs');
-const { exec } = require('child_process');
+const express = require("express");
+const http = require("http");
+const { WebSocketServer } = require("ws");
+const pty = require('node-pty');
+const cors = require("cors");
 
 const app = express();
-const PORT = 3000;
+app.use(cors());
+const server = http.createServer(app);
+const wss = new WebSocketServer({ noServer: true });
 
-// pick a safe working directory that exists
-const DEMO_FOLDER_PATH = fs.existsSync('/home/azureuser/Playground')
-  ? '/home/azureuser/Playground'
-  : '/tmp';
-
-// detect a valid shell
-function detectShell() {
-  const candidates = ['/usr/bin/bash', '/bin/bash', '/usr/bin/env bash', '/bin/sh'];
-  for (const c of candidates) {
-    const pathOnly = c.split(' ')[0];
-    if (fs.existsSync(pathOnly)) return c;
-  }
-  return '/bin/sh';
-}
-const shellPath = detectShell();
-
-// CORS (allow your domain)
-app.use(cors({ origin: ['https://demo.sidclab.org'], methods: ['GET','POST','OPTIONS'] }));
-app.use(express.json());
-
-// (optional) serve static if you want
-app.use(express.static(path.join(__dirname, '../Main')));
-
-// health check
-app.get('/health', (req, res) => {
-  res.json({ ok: true, cwd: DEMO_FOLDER_PATH, shell: shellPath });
-});
-
-// run commands
-app.post('/execute', (req, res) => {
-  const command = req.body && req.body.command;
-  if (!command || typeof command !== 'string') {
-    return res.status(400).json({ output: 'No command provided' });
-  }
-
-  console.log('[EXEC]', command);
-  exec(command, { cwd: DEMO_FOLDER_PATH, shell: shellPath, timeout: 15000 }, (error, stdout, stderr) => {
-    if (error) {
-      console.error('[ERROR]', error.message);
-      return res.status(500).json({ output: stderr || error.message });
-    }
-    res.json({ output: stdout || '(no output)' });
+server.on("upgrade", (req, socket, head) => {
+  wss.handleUpgrade(req, socket, head, (ws) => {
+    wss.emit("connection", ws, req);
   });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server listening on ${PORT}`);
-  console.log('CWD:', DEMO_FOLDER_PATH, 'Shell:', shellPath);
+const sessions = new Map();
+
+function startShell() {
+  const shell = pty.spawn("/bin/bash", ["--login"], {
+    name: "xterm-256color",
+    cols: 80,
+    rows: 30,
+    cwd: "/home/azureuser/Playground",
+    handleFlowControl: true,
+    useConpty: false,
+    env: process.env,
+  });
+  return shell;
+}
+
+app.get("/health", (req, res) => {
+  res.json({ ok: true, host: "HostD", port: 3000 });
+});
+
+wss.on("connection", (ws) => {
+  const shell = startShell();
+  sessions.set(ws, shell);
+
+  // CRITICAL: Send clear command
+  setTimeout(() => {
+    shell.write('clear\n');
+  }, 100);
+
+  // CRITICAL: Send raw data, no stripping
+  shell.onData((data) => {
+    if (ws.readyState === 1) {
+      ws.send(data);
+    }
+  });
+
+  shell.onExit(({ exitCode, signal }) => {
+    ws.close();
+  });
+
+  ws.on("message", (msg) => {
+    try {
+      const parsed = JSON.parse(msg);
+      if (parsed.resize && Array.isArray(parsed.resize)) {
+        shell.resize(parsed.resize[0], parsed.resize[1]);
+        return;
+      }
+    } catch {
+      // Prevent race condition & ensure correct encoding
+      if (Buffer.isBuffer(msg)) msg = msg.toString("utf8");
+      if (msg) shell.write(msg);
+    }
+  });
+
+  ws.on("close", () => {
+    shell.kill();
+    sessions.delete(ws);
+  });
+});
+
+server.listen(3000, "0.0.0.0", () => {
+  console.log("HostD running on port 3000");
 });

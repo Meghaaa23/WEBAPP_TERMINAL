@@ -315,6 +315,93 @@
     border-radius: 8px;
     text-align: center;
   }
+  /* === Demo2 specific terminal layout overrides === */
+  body.demo2 .host-terminals {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+  }
+
+  body.demo2 .host-terminal {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  body.demo2 .host-terminal h2 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1.4rem;
+  }
+
+  /* === FINAL FIX: Top-left aligned shell, scroll works properly === */
+  body.demo2 .terminal {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* align from top */
+    align-items: stretch; /* stretch width */
+    height: 420px;
+    background: #000;
+    border: 1px solid #222;
+    border-radius: 8px;
+    overflow: hidden; /* prevent outer scroll */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  }
+
+  body.demo2 .terminal .xterm {
+    width: 100%;
+    height: 100%;
+    display: block !important;
+    position: relative !important;
+    align-self: stretch !important;
+  }
+
+  body.demo2 .xterm-viewport {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: 100% !important;
+    padding: 0 8px !important;
+  }
+
+  body.demo2 .xterm-screen canvas {
+    margin: 0 !important; /* remove centering offset */
+    display: block !important;
+  }
+
+  body.demo2 .xterm-rows {
+    color: #00ff00 !important; /* green text */
+    text-align: left !important;
+    padding-left: 5px !important; /* left margin for prompt */
+  }
+
+  body.demo2 .xterm-viewport::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  body.demo2 .xterm-viewport::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+  }
+
+    /* === Fix terminal text alignment === */
+  body.demo2 .xterm-screen canvas {
+    margin-left: 0 !important;
+  }
+
+  body.demo2 .xterm-rows {
+    color: #00ff00 !important; /* ✅ green text */
+    padding-left: 5px !important; /* align prompt to left */
+  }
+
+
   
 footer {
   text-align: center;
@@ -331,4 +418,6 @@ footer {
     font-style: italic;
     font-weight: bold;
   }
+
+  
   

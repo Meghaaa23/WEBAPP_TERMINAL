@@ -5,9 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo</title>
     <link rel="stylesheet" href="css/styles.css">
-    <script defer src="js/ai-analyser.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+
+    <!-- Load xterm fit addon -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+
+    <!-- ✅ Fallback patch to expose FitAddon globally -->
+    <script>
+      // Normalize FitAddon export so it becomes a proper constructor
+      if (window.FitAddon && window.FitAddon.FitAddon) {
+        window.FitAddon = window.FitAddon.FitAddon;
+      } else if (window.xtermFit && window.xtermFit.FitAddon) {
+        window.FitAddon = window.xtermFit.FitAddon;
+      } else if (window.exports && window.exports.FitAddon) {
+        window.FitAddon = window.exports.FitAddon;
+      }
+      console.log("✅ FitAddon normalized:", window.FitAddon);
+    </script>
+    <script defer src="js/ai-analyser.js?v=6"></script>
 </head>
-<body>
+<body class="demo2">
     <header>
       <img src="img/uwm-logo-primary.png" alt="UWM Logo" class="logo" />
       <h1 class="header-title">Hack, Learn, Secure: Your Cybersecurity Playground</h1>
@@ -19,13 +36,11 @@
     <div class="host-terminals">
         <div class="host-terminal">
             <h2>AI Analyser1</h2>
-            <textarea id="host-c-output" readonly></textarea>
-            <input id="host-c-input" placeholder="Type command..." autofocus>
+            <div id="terminal1" class="terminal"></div>
         </div>
         <div class="host-terminal">
             <h2>AI Analyser2</h2>
-            <textarea id="host-d-output" readonly></textarea>
-            <input id="host-d-input" placeholder="Type command..." >
+            <div id="terminal2" class="terminal"></div>
         </div>
     </div>
     <div class="container">
@@ -43,8 +58,8 @@
          <li><strong>Step 1 : </strong>Import relevant libraries: a library is simply a collection of codes or modules of codes that can be used in a program for specific operations.</li>
         </ul>
         <pre> <code>
-          pip install pandas
-          pip install numpy
+          sudo apt install -y python3-pandas
+          sudo apt install -y python3-numpy
 
           import numpy
           import pandas
@@ -56,7 +71,7 @@
           <li><strong>sklearn</strong> - https://scikit-learn.org/stable</li>
         </ul>
         <pre><code>
-          pip install scikit-learn
+          sudo apt install -y python3-sklearn
 
           from sklearn.feature_extraction.text import CountVectorizer
           from sklearn.model_selection import train_test_split
@@ -115,8 +130,8 @@
           <li><strong>Step 1 : </strong>Import relevant libraries: A library is simply a collection of codes or modules of codes that can be used in a program for specific operations.</li>
         </ul>
         <pre><code>
-          pip install pandas
-          pip install numpy
+          sudo apt install -y python3-pandas
+          sudo apt install -y python3-numpy
 
           import numpy
           import pandas
@@ -127,7 +142,7 @@
           <li><strong>Step 2 : </strong>Import sklearn library: Simple and efficient tools for predictive data analysis</li>
         </ul>
         <pre><code>
-          pip install scikit-learn
+          sudo apt install -y python3-sklearn
           from sklearn.feature_extraction.text import CountVectorizer
           from sklearn.model_selection import train_test_split
           from sklearn.linear_model import LogisticRegression
