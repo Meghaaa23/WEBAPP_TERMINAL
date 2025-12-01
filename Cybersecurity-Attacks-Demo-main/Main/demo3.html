@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+
+    <!-- Load xterm fit addon -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+
+    <!-- Fallback patch to expose FitAddon globally -->
+    <script>
+      // Normalize FitAddon export so it becomes a proper constructor
+      if (window.FitAddon && window.FitAddon.FitAddon) {
+        window.FitAddon = window.FitAddon.FitAddon;
+      } else if (window.xtermFit && window.xtermFit.FitAddon) {
+        window.FitAddon = window.xtermFit.FitAddon;
+      } else if (window.exports && window.exports.FitAddon) {
+        window.FitAddon = window.exports.FitAddon;
+      }
+      console.log(" FitAddon normalized:", window.FitAddon);
+    </script>
+    <script defer src="js/ai-analyser.js?v=6"></script>
+</head>
+<body class="demo2">
+    <header>
+      <img src="img/uwm-logo-primary.png" alt="UWM Logo" class="logo" />
+      <h1 class="header-title">Hack, Learn, Secure: Your Cybersecurity Playground</h1>
+      <img src="img/SIDC.png" alt="SIDC Logo" class="logo" />
+      <div class="button-container">
+        <a href="index.html" class="back-home">Home</a>
+      </div>
+    </header>
+    <div class="host-terminals">
+        <div class="host-terminal">
+            <h2>AI Analyser2</h2>
+            <div id="terminal2" class="terminal"></div>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Example – Email Spam Detection</h2>
+
+      <ul>
+        <li>To determine the likelihood that an email is spam or ham, Naive Bayes analyzes each word separately.</li>
+        <li>For example, the terms <b>"free"</b>, <b>"offer"</b>, or <b>"money"</b> may raise the likelihood that an email would be categorized as spam or ham.</li>
+      </ul>
+
+      <div class="instructions">
+        <h2>TASK 2 : Model Steps – Spam Classification using Logistic Regression</h2>
+
+        <ul>
+          <li><strong>Step 1 : </strong>Import relevant libraries: A library is simply a collection of codes or modules of codes that can be used in a program for specific operations.</li>
+        </ul>
+        <pre><code>
+          sudo apt install -y python3-pandas
+          sudo apt install -y python3-numpy
+
+          import numpy
+          import pandas
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 2 : </strong>Import sklearn library: Simple and efficient tools for predictive data analysis</li>
+        </ul>
+        <pre><code>
+          sudo apt install -y python3-sklearn
+          from sklearn.feature_extraction.text import CountVectorizer
+          from sklearn.model_selection import train_test_split
+          from sklearn.linear_model import LogisticRegression
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 3 : </strong>Loading Data: The dataset is loaded from a CSV file using pandas. This dataset contains emails labeled as 'spam' or 'ham' (not spam).</li>
+        </ul>
+
+        <pre><code>
+          data = pd.read_csv('https://raw.githubusercontent.com/AiDevNepal/ai-saturdays-workshop-8/master/data/spam.csv')
+          data['target'] = np.where(data['target']=='spam', 1, 0)
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 4 : </strong>Train and Test Data – Splitting: The dataset is split into training and test sets using train_test_split.</li>
+        </ul>
+
+        <pre><code>
+          X_train, X_test, Y_train, Y_test = train_test_split(data['text'], data['target'], random_state=0)
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 5 : </strong>Model Training:</li>
+        </ul>
+
+        <pre><code>
+          model = LogisticRegression(max_iter=1000)
+          model.fit(X_train_vectorized, Y_train)
+          </code>
+        </pre>
+
+        <ul>
+          <li><strong>Step 6 : </strong>Model Prediction and Testing:</li>
+        </ul>
+        
+      </div>
+
+          
+    </div>    
+    <footer>
+      <p>Developed by Secure and Intelligent Distributed Computing (SIDC) Lab</p>
+    </footer>
+</body>
+</html>

@@ -4,12 +4,12 @@
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   html, body{
     height: 100%; /* Ensure the body takes full height of the viewport */
     margin: 0;
   }
-  
+
   body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f4f4; /* Adjusted to the lighter background from style.css */
@@ -23,25 +23,24 @@
   main {
     flex-grow: 1; /* Allow the main content to grow and fill the available space */
   }
-  
   h1 {
     margin-bottom: 30px;
     color: #000;
     text-align: center;
   }
-  
+
   h2 {
     margin: 20px 0 10px;
     color: #495057;
     text-align: center;
   }
-  
+
   h3 {
     margin: 15px 0;
     color: #6c757d;
     text-align: center;
   }
-  
+
   .container {
     max-width: 900px;
     margin: 0 auto;
@@ -51,19 +50,19 @@
     border-radius: 8px;
     transition: box-shadow 0.3s ease;
   }
-  
+
   .container:hover {
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.2);
   }
-  
+
   .options {
     margin-bottom: 20px;
   }
-  
+
   button {
-    display: inline-block;
+    display: block;
     padding: 10px 20px;
-    margin: 10px;
+    margin: 20px auto;
     background-color: #f4b800; /* Yellow button color from new.css */
     color: #fff;
     border: none;
@@ -72,19 +71,31 @@
     font-size: 16px;
     transition: background-color 0.3s;
   }
-  
+  button1 {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 20px auto;
+    background-color: #f4b800; /* Yellow button color from new.css */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+
   button:hover {
     background-color: #e6a700; /* Hover color for buttons */
   }
-  
+
   .hidden {
     display: none;
   }
-  
+
   .terminal {
     margin-top: 20px;
   }
-  
+
   textarea,
   input {
     width: 100%;
@@ -94,27 +105,35 @@
     color: #0f0;
     border: 1px solid #333;
   }
-  
+
   input {
     font-size: 16px;
   }
-  
   textarea {
     height: 500px;
     margin-bottom: 10px;
   }
-  
+
   /* Host A and Host B terminals */
   .host-terminals {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 100%;
+    width: 90%;
     gap: 20px;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 20px auto;
   }
-  
+  .terminal {
+    width: 90%;
+    height: 500px;
+    background: #000;
+    color: #00ff00;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+
   .host-terminal {
     flex: 1;
     display: flex;
@@ -125,27 +144,27 @@
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   }
-  
+
   .host-terminal h2 {
     margin-bottom: 10px;
   }
-  
+
   textarea {
     flex-grow: 1;
     margin-bottom: 10px;
   }
-  
+
   input {
     flex-shrink: 0;
   }
-  
+
   /* Content Section for Each Page */
   .content-section {
     margin: 20px 0;
     text-align: center;
     line-height: 1.6;
   }
-  
+
   .content-image {
     max-width: 80%;
     height: auto;
@@ -154,22 +173,22 @@
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   }
-  
+
   .instructions {
     margin-bottom: 20px;
     text-align: left;
   }
-  
+
   .instructions p {
     margin-bottom: 15px;
   }
-  
+
   ol,
   ul {
     margin-left: 20px;
     margin-bottom: 15px;
   }
-  
+
   code {
     background-color: #f8f9fa;
     padding: 4px 6px;
@@ -177,29 +196,28 @@
     font-family: "Courier New", Courier, monospace;
     color: #dc3545;
   }
-  
   pre {
     background-color: #f8f9fa;
     padding: 10px;
     border-radius: 4px;
     overflow-x: auto;
   }
-  
+
   .image-row {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
   }
-  
+
   .side-image {
     flex: 1;
     max-width: 20%;
     height: auto;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   }
-  
+
   .menu-icon {
     font-size: 30px;
     font-weight: bold;
@@ -210,7 +228,7 @@
     top: 20px;
     z-index: 1000;
   }
-  
+
   .header-title {
     display: inline-block;
     vertical-align: middle;
@@ -222,7 +240,7 @@
     font-family: "Montserrat", sans-serif;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
-  
+
   .logo {
     height: 100px;
     width: auto;
@@ -232,14 +250,14 @@
     vertical-align: top;
     float: right;
   }
-  
+
   header {
     text-align: left;
     display: flex;
     align-items: center;
     margin-bottom: 20px;
   }
-  
+
   #content-menu {
     position: fixed;
     top: 0;
@@ -251,17 +269,16 @@
     transition: left 0.3s ease;
     z-index: 999;
   }
-  
+
   #content-menu ul {
     list-style-type: none;
     padding: 0;
   }
-  
+
   #content-menu li {
     margin: 20px 0;
   }
-  
-  #content-menu a {
+ #content-menu a {
     text-decoration: none;
     color: #fff;
     font-size: 18px;
@@ -270,15 +287,15 @@
     text-align: left;
     padding-left: 20px;
   }
-  
+
   #content-menu a:hover {
     background-color: #495057;
   }
-  
+
   #content-menu.show {
     left: 0;
   }
-  
+
   /* Button Container */
   .button-container {
     position: fixed;
@@ -287,7 +304,7 @@
     display: flex;
     gap: 10px;
   }
-  
+
   .back-home,
   .next-page {
     padding: 10px 20px;
@@ -299,12 +316,12 @@
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s;
   }
-  
+
   .back-home:hover,
   .next-page:hover {
     background-color: #e6a700;
   }
-  
+
   /* Section Styles */
   .concepts-section,
   .playground-section {
@@ -315,94 +332,121 @@
     border-radius: 8px;
     text-align: center;
   }
-  /* === Demo2 specific terminal layout overrides === */
-  body.demo2 .host-terminals {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 30px;
-    max-width: 1200px;
-    margin: 40px auto;
-  }
 
-  body.demo2 .host-terminal {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
+/* Terminal Container Improvements */
+.button-container {
+  position: fixed;
+  right: 20px;
+  bottom: 40px;
+  display: flex;
+  gap: 10px;
+}
 
-  body.demo2 .host-terminal h2 {
-    margin-bottom: 10px;
-    color: #333;
-    font-size: 1.4rem;
-  }
+.back-home,
+.next-page {
+  padding: 10px 20px;
+  background-color: #f4b800;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+}
 
-  /* === FINAL FIX: Top-left aligned shell, scroll works properly === */
-  body.demo2 .terminal {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* align from top */
-    align-items: stretch; /* stretch width */
-    height: 420px;
-    background: #000;
-    border: 1px solid #222;
-    border-radius: 8px;
-    overflow: hidden; /* prevent outer scroll */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  }
+.back-home:hover,
+.next-page:hover {
+  background-color: #e6a700;
+}
+body.demo2 .host-terminal {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 30px auto;
+  padding: 30px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
 
-  body.demo2 .terminal .xterm {
-    width: 100%;
-    height: 100%;
-    display: block !important;
-    position: relative !important;
-    align-self: stretch !important;
-  }
+body.demo2 .host-terminal:hover {
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+}
 
-  body.demo2 .xterm-viewport {
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    height: 100% !important;
-    padding: 0 8px !important;
-  }
+body.demo2 .xterm {
+  width: 100%;
+  height: 500px;
+  background: #000;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  position: relative; /* IMPORTANT */
+}
 
-  body.demo2 .xterm-screen canvas {
-    margin: 0 !important; /* remove centering offset */
-    display: block !important;
-  }
+/* SCROLLING ELEMENT */
+.xterm-viewport {
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
+  height: 100% !important;
+  width: 100% !important;  padding-right: 0 !important;
+  margin-right: 0 !important;
+}
 
-  body.demo2 .xterm-rows {
-    color: #00ff00 !important; /* green text */
-    text-align: left !important;
-    padding-left: 5px !important; /* left margin for prompt */
-  }
+/* SCREEN (text area) */
+.xterm-screen {
+  position: absolute !important;    /* KEY FIX */
+  top: 0;
+  left: 0;
+  text-align: left !important;
+}
 
-  body.demo2 .xterm-viewport::-webkit-scrollbar {
-    width: 8px;
-  }
+header {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-  body.demo2 .xterm-viewport::-webkit-scrollbar-thumb {
-    background-color: #555;
-    border-radius: 4px;
-  }
+.header-title {
+  font-size: 36px;
+  color: #f4b800;
+  font-weight: bold;
+  font-family: "Montserrat", sans-serif;
+  margin-left: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
 
-    /* === Fix terminal text alignment === */
-  body.demo2 .xterm-screen canvas {
-    margin-left: 0 !important;
-  }
+.logo {
+  height: 100px;
+  margin-left: 20px;
+  float: right;
+}
 
-  body.demo2 .xterm-rows {
-    color: #00ff00 !important; /* ✅ green text */
-    padding-left: 5px !important; /* align prompt to left */
-  }
+.button-container {
+  position: fixed;
+  right: 20px;
+  bottom: 40px;
+  display: flex;
+  gap: 10px;
+}
+.back-home,
+.next-page {
+  padding: 10px 20px;
+  background-color: #f4b800;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+}
 
+.back-home:hover,
+.next-page:hover {
+  background-color: #e6a700;
+}
 
-  
 footer {
   text-align: center;
   padding: 10px;
@@ -410,14 +454,12 @@ footer {
   color: white;
   position: fixed;
   bottom: 0;
-  left:0;
+  left: 0;
   width: 100%;
-}  
-  footer p {
-    margin-right: 0px;
-    font-style: italic;
-    font-weight: bold;
-  }
+}
 
-  
-  
+footer p {
+  margin: 0;
+  font-style: italic;
+  font-weight: bold;
+}

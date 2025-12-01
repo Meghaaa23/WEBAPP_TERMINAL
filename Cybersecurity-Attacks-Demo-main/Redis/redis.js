@@ -1,5 +1,4 @@
-
-import Redis from "ioredis";
+const Redis = require("ioredis");
 
 const redis = new Redis({
   host: "redis-11362.c326.us-east-1-3.ec2.redns.redis-cloud.com",
@@ -11,7 +10,6 @@ const redis = new Redis({
 
 redis.on("connect", () => console.log("Connected to Redis Cloud"));
 redis.on("error", (err) => console.error("Redis Error:", err));
-
 
 async function getOrCreateUser(sessionId, hostRole) {
   let username = await redis.get(`session:${sessionId}`);
@@ -42,4 +40,4 @@ async function getUserHistory(username, limit = 10) {
   return await redis.lrange(`history:${username}`, 0, limit - 1);
 }
 
-export { redis, getOrCreateUser, recordHistory, getUserHistory };
+module.exports = { redis, getOrCreateUser, recordHistory, getUserHistory };

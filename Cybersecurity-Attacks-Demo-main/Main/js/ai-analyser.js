@@ -6,95 +6,86 @@ document.addEventListener("DOMContentLoaded", () => {
     const term = new Terminal({
       cursorBlink: true,
       fontSize: 14,
-      scrollback: 1000,
-      rendererType: 'canvas',
+      scrollback: 5000,
+      rendererType: "canvas",
       fontFamily: 'monospace, "DejaVu Sans Mono", "Courier New"',
       convertEol: true,
       theme: {
-        background: '#000000',
-        foreground: '#00ff00',
-        cursor: '#00ff00'
+        background: "#000000",
+        foreground: "#00ff00",
+        cursor: "#00ff00"
       },
       allowProposedApi: true
     });
 
     const fitAddon = new FitAddon();
     term.loadAddon(fitAddon);
-    
+
     const container = document.getElementById(elementId);
     if (!container) {
       console.error(`Container ${elementId} not found!`);
-      return null;
+       return null;
     }
-    
+
+    // Open terminal and fit it immediately
     term.open(container);
-    
-    // Force focus immediately
+    fitAddon.fit();
+    setTimeout(() => {
+      fitAddon.fit();
+    }, 0);
+    // Focus management
     term.focus();
-    
-    // Ensure container can receive focus
-    container.setAttribute('tabindex', '0');
-    container.style.outline = 'none';
-    
-    // Click handler to maintain focus
-    container.addEventListener('click', (e) => {
+    container.setAttribute("tabindex", "0");
+    container.style.outline = "none";
+
+    container.addEventListener("click", (e) => {
       e.preventDefault();
       term.focus();
     });
-    
-    // Prevent any parent elements from stealing focus
-    container.addEventListener('mousedown', (e) => {
+
+    container.addEventListener("mousedown", (e) => {
       e.stopPropagation();
     });
-    
-    let viewport = null;
+
     setTimeout(() => {
-      viewport = container.querySelector('.xterm-viewport');
-      if (viewport) {
-        console.log(`${hostName} viewport found`);
-      }
-      
       fitAddon.fit();
+       window.addEventListener("resize", () => fitAddon.fit());
+
       const { cols, rows } = term;
       console.log(`${hostName} ready: ${cols}x${rows}`);
-      
-      // Ensure helper textarea is enabled
-      const textarea = container.querySelector('.xterm-helper-textarea');
+
+      // Enable helper textarea for input
+      const textarea = container.querySelector(".xterm-helper-textarea");
       if (textarea) {
-        textarea.removeAttribute('readonly');
-        textarea.removeAttribute('disabled');
-        textarea.style.pointerEvents = 'auto';
+        textarea.removeAttribute("readonly");
+        textarea.removeAttribute("disabled");
+        textarea.style.pointerEvents = "auto";
         console.log(`${hostName} textarea enabled`);
       }
-      
-      // Force focus again after setup
+
       term.focus();
     }, 100);
 
     const ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
-      console.log(`${hostName} connected`);
-      
+      // console.log(`${hostName} connected`);
       setTimeout(() => {
-        const { cols, rows } = term;
-        console.log(`${hostName} sending terminal size: ${cols}x${rows}`);
-        ws.send(JSON.stringify({ resize: [cols, rows] }));
-        
-        // Focus after connection established
-        term.focus();
-      }, 200);
+        fitAddon.fit();
+        ws.send(JSON.stringify({ resize: [term.cols, term.rows] }));
+     }, 50);
+      // Reset scrollback and start fresh at top-left
+       term.reset();
+      // term.writeln(`\x1b[32mConnected to ${hostName}\x1b[0m\r\n`);
+
     };
 
     ws.onmessage = (e) => {
-      term.write(e.data);
-
-      requestAnimationFrame(() => {
-        term.scrollToBottom();
+      term.write(e.data); // append normally (no forced scroll)
+      const viewport = container.querySelector(".xterm-viewport");
         if (viewport) {
           viewport.scrollTop = viewport.scrollHeight;
         }
-      });
     };
 
     ws.onclose = () => {
@@ -107,23 +98,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     term.onData((data) => {
       if (ws.readyState === WebSocket.OPEN) {
-        console.log(`${hostName} keystroke:`, data, 'codes:', Array.from(data).map(c => c.charCodeAt(0)));
         ws.send(data);
       }
+ const viewport = container.querySelector('.xterm-viewport');
+      if (viewport) viewport.scrollTop = viewport.scrollHeight;
     });
 
-    // Additional keyboard event listener as fallback
-    container.addEventListener('keydown', (e) => {
-      // Log all keydown events
-      console.log(`${hostName} keydown:`, e.key, 'code:', e.code, 'keyCode:', e.keyCode);
-      
-      // If it's a number key and terminal didn't catch it, send manually
-      if (e.key >= '0' && e.key <= '9' && ws.readyState === WebSocket.OPEN) {
-        console.log(`${hostName} manual number send:`, e.key);
-        // Note: Only use this as last resort - xterm should handle this
-      }
-    }, true); // Use capture phase
+    // Optional debugging for key events
+    container.addEventListener(
+      "keydown",
+      (e) => {
+        console.log(`${hostName} keydown:`, e.key, "code:", e.code);
+      },
+      true
+    );
 
+    // Auto-resize when window size changes
     window.addEventListener("resize", () => {
       fitAddon.fit();
       if (ws.readyState === WebSocket.OPEN) {
@@ -132,20 +122,27 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Keep terminal focused when page regains focus
-    window.addEventListener('focus', () => {
+    // Keep focus when tab regains focus
+    window.addEventListener("focus", () => {
       setTimeout(() => term.focus(), 100);
     });
-
-    return { term, ws, fitAddon };
+      return { term, ws, fitAddon };
   }
 
-  console.log('Starting AI Analyser terminals...');
-  
-  const terminal1 = setupTerminal("terminal1", "wss://demo.sidclab.org/hostC/", "Host C");
-  const terminal2 = setupTerminal("terminal2", "wss://demo.sidclab.org/hostD/", "Host D");
+  console.log("Starting AI Analyser terminals...");
 
-  window.addEventListener('beforeunload', () => {
+  const terminal1 = setupTerminal(
+    "terminal1",
+    "wss://demo.sidclab.org/hostC/",
+    "Host C"
+  );
+  const terminal2 = setupTerminal(
+    "terminal2",
+    "wss://demo.sidclab.org/hostD/",
+    "Host D"
+  );
+
+  window.addEventListener("beforeunload", () => {
     if (terminal1?.ws) terminal1.ws.close();
     if (terminal2?.ws) terminal2.ws.close();
   });

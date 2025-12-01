@@ -31,24 +31,48 @@ function startShell() {
 }
 
 app.get("/health", (req, res) => {
-  res.json({ ok: true, host: "HostC", port: 3000 });
+  res.json({ ok: true, host: "HostC", port: 3000 }); // Change to HostD for HostD server
 });
 
 wss.on("connection", (ws) => {
   const shell = startShell();
   sessions.set(ws, shell);
 
-  // ⭐ CRITICAL: Send clear command
-  setTimeout(() => {
-    shell.write('clear\n');
-  }, 100);
+  let isInitializing = true;
+  let buffer = '';
 
-  // ⭐ CRITICAL: Send raw data, no stripping
   shell.onData((data) => {
     if (ws.readyState === 1) {
-      ws.send(data);
+      if (isInitializing) {
+        buffer += data;
+        
+        // Check if we've received the prompt
+        if (buffer.includes('Playground$')) {
+          isInitializing = false;
+          
+          // Filter out W's and send the initialization
+          const filtered = buffer.replace(/W{5,}/g, '');
+          ws.send(filtered);
+          buffer = '';
+        }
+      } else {
+        // Normal operation - send all data immediately
+        ws.send(data);
+      }
     }
   });
+
+  // Safety timeout: after 2 seconds, stop filtering
+  setTimeout(() => {
+    if (isInitializing) {
+      isInitializing = false;
+      if (buffer) {
+        const filtered = buffer.replace(/W{5,}/g, '');
+        ws.send(filtered);
+        buffer = '';
+      }
+    }
+  }, 2000);
 
   shell.onExit(({ exitCode, signal }) => {
     ws.close();
@@ -58,13 +82,21 @@ wss.on("connection", (ws) => {
     try {
       const parsed = JSON.parse(msg);
       if (parsed.resize && Array.isArray(parsed.resize)) {
-        shell.resize(parsed.resize[0], parsed.resize[1]);
+        const [cols, rows] = parsed.resize;
+        if (cols > 0 && rows > 0) {
+          shell.resize(cols, rows);
+        }
         return;
       }
     } catch {
-      // Prevent race condition & ensure correct encoding
-      if (Buffer.isBuffer(msg)) msg = msg.toString("utf8");
-      if (msg) shell.write(msg);
+      // Not JSON, treat as input
+    }
+    
+    // Send input to shell
+    if (Buffer.isBuffer(msg)) {
+      shell.write(msg.toString("utf8"));
+    } else {
+      shell.write(msg);
     }
   });
 
@@ -75,5 +107,5 @@ wss.on("connection", (ws) => {
 });
 
 server.listen(3000, "0.0.0.0", () => {
-  console.log("HostC running on port 3000");
+  console.log("HostC running on port 3000"); // Change to HostD for HostD server
 });
